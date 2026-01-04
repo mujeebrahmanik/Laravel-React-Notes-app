@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,8 @@ class NotesFactory extends Factory
     {
         return [
             'category'=> $this->faker->randomElement(['Work', 'Personal', 'Study', 'Other']),
-            'content'=> $this->faker->paragraph(2)
+            'content'=> $this->faker->paragraph(2),
+            'user_id'=> User::inRandomOrder()->first()->id,
         ];
     }
 }

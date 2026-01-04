@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Notes;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 class NoteController extends Controller
 {
     public function index(Request $request){
-        $notes = Notes::orderBy('created_at','desc')->paginate(6);
+        $notes = Notes::with('user')->where('user_id',auth()->id())->orderBy('created_at','desc')->paginate(6);
         return response()->json($notes);
     }
 
@@ -17,10 +20,15 @@ class NoteController extends Controller
         $validated = $request -> validate([
 
             'category' => 'required|string|max:50',
-            'content' => 'required|string|max:200'
+            'content' => 'required|string|max:200',
+
         ]);
 
-        $note = Notes::create($validated);
+        $note = Notes::create([
+            'category' => $validated['category'],
+            'content' => $validated['content'],
+            'user_id' => $request->user()->id,
+        ]);
 
         return response()->json([
             'message'=> 'Note created successfully',

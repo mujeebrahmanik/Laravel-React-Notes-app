@@ -1,6 +1,13 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
-axios.defaults.withCredentials = true;
+const Axios_api = axios.create({
+    baseURL: '/api',
+    withCredentials: true,
+    withXSRFToken: true,
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    },
+});
 
-export default axios;
+export default Axios_api;

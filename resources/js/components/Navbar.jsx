@@ -1,6 +1,15 @@
 import React from 'react'
+import { MdLogout } from "react-icons/md";
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
+  const {logout,user} = useAuth()
+
+  const handleLogout = async (e) =>{
+    e.preventDefault();
+    await logout();
+
+  }
   return (
     <>
         <nav className="sticky top-0 z-50 py-3 backdrop-blur-lg border-b border-neutral-700">
@@ -9,10 +18,12 @@ const Navbar = () => {
 
                 
             <h1 className='text-lg font-bold'>Notes</h1>
-            <ul className="flex gap-3 text-neutral-300">
-                <li>All Notes</li>
-                <li>Today's Notes</li>
-            </ul>
+            {user &&
+               <button className="bg-red-600 rounded-md py-2 px-3 flex items-center cursor-pointer gap-2" onClick={handleLogout}>
+                <MdLogout /> Logout
+              </button>
+            }
+           
             </div>
             </div>
         </nav>

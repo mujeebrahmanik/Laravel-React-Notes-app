@@ -1,6 +1,6 @@
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-import axios from '../lib/axios'
+import Axios_api from '../lib/axios'
 import { useState } from 'react'
 
 export default function FormModal({
@@ -9,9 +9,10 @@ export default function FormModal({
     refresh
 }) {
 
+
     const [formData,setFormData]=useState({
         category:"",
-        content:""
+        content:"",
     })
 
     const [success,setSuccess]=useState(false)
@@ -25,7 +26,7 @@ export default function FormModal({
         e.preventDefault();
 
         try {
-            const response = await axios.post('/notes',formData)
+            const response = await Axios_api.post('/notes',formData)
             setSuccess(true)
 
             setTimeout(()=>{
@@ -34,13 +35,16 @@ export default function FormModal({
 
             setFormData({
                 category:"",
-                content:""
+                content:"",
             })
 
             refresh()
 
         } catch (error) {
             console.error(error)
+        }finally{
+            console.log(formData)
+
         }
 
     }

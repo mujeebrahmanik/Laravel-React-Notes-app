@@ -1,14 +1,18 @@
-import React from "react";
-import Navbar from "./components/Navbar";
-import Task from "./components/Task";
+import { BrowserRouter,Routes,Router, Route, Navigate,useLocation } from "react-router-dom";
+import { AuthProvider, useAuth } from './context/AuthContext';
+import AppRoutes from "./AppRoutes";
+
 
 export default function App() {
   return (
     <>
-        <Navbar />
-        <div className="max-w-7xl mx-auto pt-15 px-6">
-            <Task />
-        </div>
+      
+      <BrowserRouter>
+        <AuthProvider>
+          <AppRoutes/>
+          </AuthProvider>
+      </BrowserRouter>
+
     </>
   );
 }

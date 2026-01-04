@@ -2,7 +2,7 @@ import { MdEdit,MdDelete  } from "react-icons/md";
 
 const TaskCard = (props) => {
   return (
-    <div className='bg-neutral-800 rounded-lg border-2 border-neutral-800 flex flex-col p-3 gap-4'>
+    <div className='backdrop-blur-6xl bg-white/10 rounded-lg border-2border border-white/20 shadow-xl flex flex-col p-3 gap-4'>
         <div className="flex justify-between">
             <h3 className="text-sm text-white font-semibold bg-cyan-600 backdrop-blur-xl capitalize  rounded-md px-4 py-1">
                     {props.task.category}

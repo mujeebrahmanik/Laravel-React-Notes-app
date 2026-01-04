@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import TaskCard from './TaskCard'
 import { FaPlus } from "react-icons/fa";
 import FormModal from './FormModal';
-import axios from '../lib/axios'
+import Axios_api from '../lib/axios'
 
 
 const Task = () => {
@@ -15,7 +15,7 @@ const Task = () => {
     const fetchData=async(page=1)=>{
 
         try {
-            const response=await axios.get(`/notes?page=${page}`)
+            const response=await Axios_api.get(`/notes?page=${page}`)
             setData(response.data.data)
             setLinks(response.data.links)
             setCurrentPage(response.data.current_page)
@@ -33,8 +33,8 @@ const Task = () => {
     <div className='flex flex-col gap-6'>
         <div className="flex justify-between items-start">
             <h6 className='text-xl font-medium'>My Notes</h6>
-            <button className="bg-green-600 rounded-md py-2 px-3 flex items-center cursor-pointer gap-2" onClick={() => setOpen(true)}>
-                <FaPlus/> Add New
+            <button className="bg-green-700 backdrop-blur-3xl rounded-md py-2 px-3 flex items-center cursor-pointer gap-2" onClick={() => setOpen(true)}>
+                <FaPlus/>New
             </button>
         </div>
         
@@ -47,7 +47,7 @@ const Task = () => {
             ))}
         </div>
 
-        <div className="flex justify-center gap-3 mt-2">
+        <div className="flex justify-center gap-3 mt-4">
             {links.map((link, index) => (
                 <button
                     key={index}
