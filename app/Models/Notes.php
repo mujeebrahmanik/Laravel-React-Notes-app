@@ -12,8 +12,8 @@ class Notes extends Model
 
     protected $fillable = [
         'user_id',
-        'category',
-        'content',
+        'status',
+        'task',
     ];
 
     public function user(){

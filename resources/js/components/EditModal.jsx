@@ -2,53 +2,45 @@ import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/re
 import Axios_api from '../lib/axios'
 import { useState } from 'react'
 
-export default function FormModal({
-    open,
-    close,
-    refresh
-}) {
-
-
-    const [formData,setFormData]=useState({
-        task:"",
+const EditModal = ({open,close,refresh}) => {
+    const [formData,setFormData] = useState({
+        task : '',
+        status : ''
     })
 
-    const [success,setSuccess]=useState(false)
+    const [success,setSucess] = useState(false)
+    const [error,setError] = useState('')
 
-    const handleChange = (e) => {
+    const statusOptions = [
+        {value:'pending',label:'Pending'},
+        {value:'in process',label:'In Process'},
+        {value:'completed',label:'Completed'},
+    ]
+
+    const handleChange = (e)=>{
         setFormData({...formData,[e.target.name]:e.target.value})
     }
 
-    const handleSubmit = async (e)=> {
-
-        e.preventDefault();
-
+    const handleSubmit = async (e) =>{
         try {
-            const response = await Axios_api.post('/notes',formData)
-            setSuccess(true)
-
+            const response = Axios_api.put(`/notes/${id}`,formData)
+            setError('')
+            setSucess(true)
             setTimeout(()=>{
-                setSuccess(false)
+                setSucess(false)
             },3000)
-
-            setFormData({
-                task:"",
-            })
-
             refresh()
-
-        } catch (error) {
-            console.error(error)
+            
+        } catch (err) {
+            setError(err.response?.data?.message || 'Update failed');
         }finally{
-            console.log(formData)
 
         }
 
     }
-
   return (
     <div>
-      <Dialog open={open} onClose={close} className="relative z-10">
+        <Dialog open={open} onClose={close} className="relative z-10">
         <DialogBackdrop
           transition
           className="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
@@ -66,7 +58,7 @@ export default function FormModal({
                   <div className="mt-3 text-start sm:mt-0 sm:ml-4 sm:text-left w-full">
                     <div className="flex justify-between items-center">
                         <DialogTitle as="h3" className="text-base  font-semibold text-white">
-                        Add new Note
+                        Edit Note
                         </DialogTitle>
                         <button
                             type="button"
@@ -81,7 +73,11 @@ export default function FormModal({
                          <form className="space-y-4" onSubmit={handleSubmit}>
 
                             {success && 
-                                <h6 className='text-green-600 my-3 font-semibold'>New Note added successfully</h6>
+                                <h6 className='text-green-600 my-3 font-semibold'>Note update successfully</h6>
+                            }
+
+                            {error && 
+                                <h6 className='text-red-600 my-3 font-semibold'>{error}</h6>
                             }
                             
                             
@@ -104,6 +100,29 @@ export default function FormModal({
                                     focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
                                 "
                                 />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-300 mb-1">
+                                Status
+                                </label>
+                                <select
+                                value={formData.status}
+                                name='status'
+                                id='status'
+                                onChange={(e)=>handleChange(e)}
+                                className="
+                                    w-full rounded-md
+                                    bg-gray-800 border border-gray-700
+                                    px-3 py-2 text-sm text-white
+                                    placeholder-gray-400
+                                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
+                                ">
+
+                                {statusOptions.map((i)=>(
+                                    <option value={i.value} key={i.value}>{i.label}</option>
+                                ))}
+                            </select>
                             </div>
 
                             {/* Submit Button */}
@@ -133,3 +152,5 @@ export default function FormModal({
     </div>
   )
 }
+
+export default EditModal

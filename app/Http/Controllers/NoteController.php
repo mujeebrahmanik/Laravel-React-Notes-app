@@ -19,14 +19,14 @@ class NoteController extends Controller
     public function store(Request $request){
         $validated = $request -> validate([
 
-            'category' => 'required|string|max:50',
-            'content' => 'required|string|max:200',
+            'task' => 'required|string|max:50',
+            'status' => 'sometimes|in:pending,in process,completed',
 
         ]);
 
         $note = Notes::create([
-            'category' => $validated['category'],
-            'content' => $validated['content'],
+            'task' => $validated['task'],
+            'status' => $validated['status'] ?? 'pending',
             'user_id' => $request->user()->id,
         ]);
 
@@ -34,5 +34,23 @@ class NoteController extends Controller
             'message'=> 'Note created successfully',
             'data'=> $note,
         ],201);
+    }
+
+
+    public function update(Request $request,$id){
+        $note = Notes::findOrFail($id);
+
+        $validated = $request -> validate([
+            'task' => 'required|string|max:50',
+            'status' => 'sometimes|in:pending,in process,completed'
+        ]);
+
+        $note->update($validated);
+
+        return response()->json([
+            'message' => 'note updated successfully',
+            'data' => $note
+        ],200);
+
     }
 }

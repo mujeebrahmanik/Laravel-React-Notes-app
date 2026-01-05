@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('category');
-            $table->text('content');
+            $table->enum('status',['pending','in process','completed'])->default('pending');
+            $table->text('task');
         });
     }
 

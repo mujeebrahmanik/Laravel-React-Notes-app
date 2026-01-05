@@ -24,4 +24,5 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/notes', [NoteController::class,'store']);
     Route::get('/user',[AuthController::class,'user']);
     Route::post('/logout',[AuthController::class,'logout']);
+    Route::put('/notes/{id}',[NoteController::class,'update']);
 });

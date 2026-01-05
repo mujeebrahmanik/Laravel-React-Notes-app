@@ -33,7 +33,7 @@ const Task = () => {
     <div className='flex flex-col gap-6'>
         <div className="flex justify-between items-start">
             <h6 className='text-xl font-medium'>My Notes</h6>
-            <button className="bg-green-700 backdrop-blur-3xl rounded-md py-2 px-3 flex items-center cursor-pointer gap-2" onClick={() => setOpen(true)}>
+            <button className="bg-green-700 backdrop-blur-3xl rounded-md py-1 px-2 flex items-center cursor-pointer gap-2" onClick={() => setOpen(true)}>
                 <FaPlus/>New
             </button>
         </div>
@@ -43,7 +43,7 @@ const Task = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             {data.map((i,index) => (
-                <TaskCard task={i} key={index}/>
+                <TaskCard task={i} key={index} refresh={fetchData}/>
             ))}
         </div>
 
