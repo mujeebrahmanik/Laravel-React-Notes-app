@@ -77,11 +77,11 @@ const TaskCard = (props) => {
         </div>
 
         {editOpen && 
-            <EditModal open={editOpen} close={closeEdit} refresh={props.refresh} note={selectedNote} />
+            <EditModal open={editOpen} close={closeEdit} refresh={props.refresh} note={selectedNote} page={props.curpage}/>
         }
 
         {deleteOpen && 
-            <DeleteModal open={deleteOpen} close={closeDelete} refresh={props.refresh} note={selectedNote} />
+            <DeleteModal open={deleteOpen} close={closeDelete} refresh={props.refresh} note={selectedNote} pageSize={props.pageSize} page={props.curpage}/>
         }
 
     </div>

@@ -53,4 +53,14 @@ class NoteController extends Controller
         ],200);
 
     }
+
+
+    public function destroy(Request $request,$id){
+        $note = Notes::findOrFail($id);
+        $note -> delete();
+
+        return response()->json([
+            'message' => 'Note deleted successfully'
+        ],200);
+    }
 }

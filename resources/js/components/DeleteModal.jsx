@@ -1,8 +1,26 @@
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import Axios_api from '../lib/axios'
-import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
-const DeleteModal = ({open,close,refresh,note}) => {
+
+const DeleteModal = ({open,close,refresh,note,pageSize,page}) => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await Axios_api.delete(`/notes/${note.id}`)
+
+            if(pageSize === 1&& page > 1){
+                refresh(page - 1)
+            }else{
+                refresh(page)
+            }
+            
+            toast.success('Note deleted successfully')
+            close()
+        } catch (error) {
+            toast.error('Note delete failed')
+        }
+    }
   return (
     <div>
             <Dialog open={open} onClose={close} className="relative z-10">
@@ -34,8 +52,9 @@ const DeleteModal = ({open,close,refresh,note}) => {
                                 className="inline-flex  justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-400 sm:ml-3 sm:w-auto">
                                 cancel
                             </button>
-                            
-                            <button
+
+                            <form onSubmit={handleSubmit}>
+                                <button
                                     type="submit"
                                     className="
                                      rounded-md
@@ -47,6 +66,9 @@ const DeleteModal = ({open,close,refresh,note}) => {
                                 >
                                     Delete
                                 </button>
+                            </form>
+                            
+                            
                           
                         </div>
                       </div>

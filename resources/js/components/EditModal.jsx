@@ -31,13 +31,13 @@ const EditModal = ({open,close,refresh,note}) => {
     const handleSubmit = async (e) =>{
         e.preventDefault();
         try {
-            const response = Axios_api.put(`/notes/${note.id}`,formData)
+            const response = await Axios_api.put(`/notes/${note.id}`,formData)
             setError('')
             setSucess(true)
             setTimeout(()=>{
                 setSucess(false)
             },3000)
-            
+
             refresh()
             
         } catch (err) {
