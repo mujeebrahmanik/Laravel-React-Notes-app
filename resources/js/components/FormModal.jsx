@@ -40,7 +40,6 @@ export default function FormModal({
         } catch (error) {
             console.error(error)
         }finally{
-            console.log(formData)
 
         }
 

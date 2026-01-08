@@ -1,12 +1,19 @@
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import Axios_api from '../lib/axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-const EditModal = ({open,close,refresh}) => {
+const EditModal = ({open,close,refresh,note}) => {
     const [formData,setFormData] = useState({
         task : '',
         status : ''
     })
+
+    useEffect(()=>{
+        setFormData({
+          task : note.task,
+          status : note.status
+        })
+    },[note])
 
     const [success,setSucess] = useState(false)
     const [error,setError] = useState('')
@@ -22,13 +29,15 @@ const EditModal = ({open,close,refresh}) => {
     }
 
     const handleSubmit = async (e) =>{
+        e.preventDefault();
         try {
-            const response = Axios_api.put(`/notes/${id}`,formData)
+            const response = Axios_api.put(`/notes/${note.id}`,formData)
             setError('')
             setSucess(true)
             setTimeout(()=>{
                 setSucess(false)
             },3000)
+            
             refresh()
             
         } catch (err) {
@@ -73,7 +82,7 @@ const EditModal = ({open,close,refresh}) => {
                          <form className="space-y-4" onSubmit={handleSubmit}>
 
                             {success && 
-                                <h6 className='text-green-600 my-3 font-semibold'>Note update successfully</h6>
+                                <h6 className='text-green-600 my-3 font-semibold'>Note updated successfully</h6>
                             }
 
                             {error && 

@@ -12,7 +12,7 @@ const Task = () => {
     const [lastPage,setLastPage]=useState(1)
     const [open,setOpen]=useState(false)
 
-    const fetchData=async(page=1)=>{
+    const fetchData=async(page=currentPage)=>{
 
         try {
             const response=await Axios_api.get(`/notes?page=${page}`)

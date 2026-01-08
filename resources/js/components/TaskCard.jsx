@@ -2,13 +2,33 @@ import { MdEdit,MdDelete  } from "react-icons/md";
 import moment from "moment";
 import { useState } from "react";
 import EditModal from "./EditModal";
+import DeleteModal from "./DeleteModal";
 
 const TaskCard = (props) => {
     const [editOpen,setEditOpen] = useState(false)
+    const [deleteOpen,setDeleteOpen] = useState(false)
+    const [selectedNote,setSelectedNote] = useState(null)
 
-    const openEdit = () =>{
+    const openEdit = (note) =>{
         setEditOpen(true)
+        setSelectedNote(note)
     }
+
+    const closeEdit = () =>{
+        setEditOpen(false)
+        setSelectedNote(null)
+    }
+
+    const openDelete = (note) =>{
+        setDeleteOpen(true)
+        setSelectedNote(note)
+    }
+
+    const closeDelete = () =>{
+        setDeleteOpen(false)
+        setSelectedNote(null)
+    }
+
   return (
     <div className='backdrop-blur-6xl bg-white/10 rounded-lg border-2border border-white/20 shadow-xl flex flex-col p-4 gap-5'>
         <div className="flex justify-between">
@@ -45,11 +65,11 @@ const TaskCard = (props) => {
             </p>
 
             <div className="flex  gap-1">
-                <button className="border-green-300/50 rounded-lg border-2 p-1 cursor-pointer hover:bg-green-300/50" onClick={openEdit}>
+                <button className="border-green-300/50 rounded-lg border-2 p-1 cursor-pointer hover:bg-green-300/50" onClick={()=>openEdit(props.task)}>
                     <MdEdit/>
                 </button>
 
-                <button className="border-red-300/50 rounded-lg border-2 p-1 cursor-pointer hover:bg-red-300/50">
+                <button className="border-red-300/50 rounded-lg border-2 p-1 cursor-pointer hover:bg-red-300/50 " onClick={()=>openDelete(props.task)}>
                     <MdDelete/>
                 </button>
             </div>
@@ -57,7 +77,11 @@ const TaskCard = (props) => {
         </div>
 
         {editOpen && 
-            <EditModal open={editOpen} close={()=>setEditOpen(false)} refresh={props.refresh}/>
+            <EditModal open={editOpen} close={closeEdit} refresh={props.refresh} note={selectedNote} />
+        }
+
+        {deleteOpen && 
+            <DeleteModal open={deleteOpen} close={closeDelete} refresh={props.refresh} note={selectedNote} />
         }
 
     </div>

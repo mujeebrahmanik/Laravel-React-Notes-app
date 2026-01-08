@@ -19,8 +19,8 @@ const Navbar = () => {
                 
             <h1 className='text-lg font-bold'>Notes</h1>
             {user &&
-               <button className="bg-red-600 rounded-md py-1 px-2 flex items-center cursor-pointer gap-2" onClick={handleLogout}>
-                <MdLogout /> Logout
+               <button className="bg-red-600 rounded-md py-2 px-2 flex items-center cursor-pointer gap-2" onClick={handleLogout}>
+                <MdLogout /> <span className='lg:flex hidden'>Logout</span>
               </button>
             }
            
